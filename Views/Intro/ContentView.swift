@@ -91,22 +91,36 @@ struct ContentView: View {
                             }
                             .buttonStyle(SpyButtonStyle())
                             
-                            Button(action: {
-                                showOperationBriefing = true
-                            }) {
-                                HStack {
-                                    Image(systemName: "doc.text")
-                                    Text("OPERATION BRIEFING")
+                            // START HERE indicator and Operation Briefing button
+                            VStack(spacing: 8) {
+                                HStack(spacing: 8) {
+                                    Text("START HERE")
+                                        .font(.custom("Courier", size: 12))
+                                        .foregroundColor(Color(red: 0.85, green: 0.2, blue: 0.2))
+                                        .tracking(2)
+                                    
+                                    Image(systemName: "arrow.down")
+                                        .foregroundColor(Color(red: 0.85, green: 0.2, blue: 0.2))
+                                        .font(.system(size: 12, weight: .bold))
                                 }
-                                .font(.custom("Courier", size: 16))
-                                .foregroundColor(Color(red: 0.8, green: 0.7, blue: 0.5))
-                                .frame(width: 250, height: 45)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 0)
-                                        .stroke(Color(red: 0.8, green: 0.7, blue: 0.5), lineWidth: 1)
-                                )
+                                
+                                Button(action: {
+                                    showOperationBriefing = true
+                                }) {
+                                    HStack {
+                                        Image(systemName: "doc.text")
+                                        Text("OPERATION BRIEFING")
+                                    }
+                                    .font(.custom("Courier", size: 16))
+                                    .foregroundColor(Color(red: 0.8, green: 0.7, blue: 0.5))
+                                    .frame(width: 250, height: 45)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 0)
+                                            .stroke(Color(red: 0.8, green: 0.7, blue: 0.5), lineWidth: 1)
+                                    )
+                                }
+                                .buttonStyle(SpyButtonStyle())
                             }
-                            .buttonStyle(SpyButtonStyle())
                         }
                         .transition(.opacity.animation(.easeInOut(duration: 1.2)))
                     }
@@ -148,9 +162,14 @@ struct ContentView: View {
         let fullText = subtitle + "\n\n" + coverStory + "\n\n" + mission
         typewriterText = ""
         
-        for (index, character) in fullText.enumerated() {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.05) {
-                typewriterText.append(character)
+        var currentIndex = 0
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
+            if currentIndex < fullText.count {
+                let index = fullText.index(fullText.startIndex, offsetBy: currentIndex)
+                typewriterText.append(fullText[index])
+                currentIndex += 1
+            } else {
+                timer.invalidate()
             }
         }
     }

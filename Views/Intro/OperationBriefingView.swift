@@ -75,9 +75,45 @@ struct OperationBriefingView: View {
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             
+                            VStack(alignment: .leading, spacing: 15) {
+                                Text("MISSION STRUCTURE:")
+                                    .font(.custom("Courier", size: 16))
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Color(red: 0.85, green: 0.2, blue: 0.2))
+                                    .tracking(2)
+                                
+                                Text("Every mission begins with an official briefing, followed by a flashback to your CIA training at The Farm, before you face the live operation. Study the files, remember your drills, and then survive the field test.")
+                                    .font(.custom("Courier", size: 14))
+                                    .foregroundColor(Color(red: 0.8, green: 0.7, blue: 0.5))
+                                    .lineSpacing(4)
+                                
+                                // Three-phase breakdown
+                                VStack(alignment: .leading, spacing: 12) {
+                                    ThreePhaseItem(
+                                        number: "1",
+                                        title: "MISSION BRIEFING",
+                                        description: "Intelligence dossier with scenario details and Spanish learning objectives"
+                                    )
+                                    
+                                    ThreePhaseItem(
+                                        number: "2",
+                                        title: "RECALL SEQUENCE (THE FARM)",
+                                        description: "Flashback to CIA training - practice grammar and vocabulary in controlled environment"
+                                    )
+                                    
+                                    ThreePhaseItem(
+                                        number: "3",
+                                        title: "LIVE MISSION DRILL",
+                                        description: "Real-world application in Havana - your Spanish skills under pressure"
+                                    )
+                                }
+                                .padding(.top, 10)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            
                             BriefingSection(
-                                title: "MISSION STRUCTURE:",
-                                content: "Operation Habla consists of 10 sequential missions. Each mission contains multiple scenes with Spanish interactions. Complete missions to unlock new challenges."
+                                title: "SEQUENTIAL OPERATIONS:",
+                                content: "Operation Habla consists of 10 sequential missions. Each mission unlocks only after successful completion of the previous operation. Failure means starting the mission over."
                             )
                             
                             BriefingSection(
@@ -120,3 +156,35 @@ struct OperationBriefingView: View {
     }
 }
 
+struct ThreePhaseItem: View {
+    let number: String
+    let title: String
+    let description: String
+    
+    var body: some View {
+        HStack(alignment: .top, spacing: 12) {
+            Text(number)
+                .font(.custom("Courier", size: 16))
+                .fontWeight(.bold)
+                .foregroundColor(Color(red: 0.85, green: 0.2, blue: 0.2))
+                .frame(width: 20, height: 20)
+                .overlay(
+                    Circle()
+                        .stroke(Color(red: 0.85, green: 0.2, blue: 0.2), lineWidth: 1)
+                )
+            
+            VStack(alignment: .leading, spacing: 4) {
+                Text(title)
+                    .font(.custom("Courier", size: 13))
+                    .fontWeight(.bold)
+                    .foregroundColor(Color(red: 0.9, green: 0.8, blue: 0.6))
+                    .tracking(1)
+                
+                Text(description)
+                    .font(.custom("Courier", size: 12))
+                    .foregroundColor(Color(red: 0.8, green: 0.7, blue: 0.5))
+                    .lineSpacing(3)
+            }
+        }
+    }
+}
